@@ -2,47 +2,50 @@
 import React, {useState} from "react";
 import BottomRow from "./BottomRow";
 import "./App.css";
+import { render } from "react-dom";
 
-function App() {
-  //TODO: STEP 2 - Establish your applictaion's state with some useState hooks.  You'll need one for the home score and another for the away score.
-  const [lionsScore, setLionsScore] = useState(32)
-  const [tigersScore, setTigersScore] = useState(32)
+function ScoreBoard (props) {
+  return (
+      <section className="scoreboard">
+        <div className="topRow">
+          <div className="home">
+            <h2 className="home__name">{props.homeTeamName}</h2>
+            <div className="home__score">{props.homeScore}</div>
+          </div>
+          <div className="timer">00:03</div>
+          <div className="away">
+            <h2 className="away__name">{props.awayTeamName}</h2>
+            <div className="away__score">{props.awayScore}</div>
+          </div>
+        </div>
+        <BottomRow />
+      </section>
+  )
+}
+
+function FootballPlayResult (props) {
+   const homeScore = props.homeScore
+   const awayScore = props.awayScore
+   const setHomeScore = props.setHomeScore
+   const setAwayScore = props.setAwayScore
+
   const playFootBall = e =>{
     const result = e.target.textContent
     if(result === 'Home Touchdown'){
-      setLionsScore(lionsScore + 7)
+      setHomeScore(homeScore + 7)
     }else if(result === 'Home Field Goal'){
-      setLionsScore(lionsScore + 3)
+      setHomeScore(homeScore + 3)
     }else if(result === 'Away Touchdown'){
-      setTigersScore(tigersScore + 7)
+      setAwayScore(awayScore + 7)
     }else if(result === 'Away Field Goal'){
-      setTigersScore(tigersScore +3)
+      setAwayScore(awayScore +3)
     }else{
       return null
     }
   }
   return (
-    <div className="container">
-      <section className="scoreboard">
-        <div className="topRow">
-          <div className="home">
-            <h2 className="home__name">Lions</h2>
-
-            {/* TODO STEP 3 - We need to change the hardcoded values in these divs to accept dynamic values from our state. */}
-            <div className="home__score">{lionsScore}</div>
-          </div>
-          <div className="timer">00:03</div>
-          <div className="away">
-            <h2 className="away__name">Tigers</h2>
-            <div className="away__score">{tigersScore}</div>
-          </div>
-        </div>
-        <BottomRow />
-      </section>
       <section className="buttons">
         <div className="homeButtons" onClick={playFootBall}>
-
-          {/* TODO STEP 4 - Now we need to attach our state setter functions to click listeners. */}
           <button className="homeButtons__touchdown">Home Touchdown</button>
           <button className="homeButtons__fieldGoal">Home Field Goal</button>
         </div>
@@ -51,8 +54,22 @@ function App() {
           <button className="awayButtons__fieldGoal">Away Field Goal</button>
         </div>
       </section>
-    </div>
-  );
+    )
 }
 
-export default App;
+function IWantToPlayAGame(props){
+  const [lionsScore, setLionsScore] = useState(32)
+  const [tigersScore, setTigersScore] = useState(32)
+  
+  //const teamSetUp = (team, score) =>{
+ //   const [team, setScore] = useState(score)
+ // }
+  return (
+    <div className= 'container'>
+      <ScoreBoard homeTeamName='Lions' awayTeamName= 'Tigers' homeScore= {lionsScore} awayScore= {tigersScore} />
+      <FootballPlayResult homeScore= {lionsScore} awayScore= {tigersScore} setHomeScore= {setLionsScore} setAwayScore= {setTigersScore} />
+    </div>
+  )
+}
+
+export default IWantToPlayAGame;
